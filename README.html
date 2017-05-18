@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Tools and utilities for Windows</title>
+        <meta http-equiv="Content-Type" content="text/html;
+            charset=ISO-8859-1" />
+        <meta name="Author" content="Olof Lagerkvist" />
+        <meta name="Description" content="Tools for Windows" />
+        <meta name="KeyWords" content="tools,utilities,imdisk,strarc,rawcopy,win32" />
+        <meta name="author" content="Olof Lagerkvist" />
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0" />
+        <style type="text/css">
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 0.95em;
+            }
+            h1 {
+                font-weight: bold;
+            }
+            h2 {
+                font-weight: bold;
+            }
+            h3 {
+                font-weight: bold;
+            }
+        </style>
+
+</head>
+<body>
+
+    <h2><a name="ImDisk" />ImDisk Virtual Disk Driver</h2>
+        <h3>Current version 2.0.9 built 26 August 2016</h3>
+    ImDisk is a virtual disk driver for Windows
+    NT/2000/XP/Vista/7/8/8.1/10 and Windows Server 2003/2003 R2/2008/2008 R2/2012/2012 R2, 32 and 64 bit editions. It can create virtual hard disk, floppy
+    or CD/DVD drives using image files or system memory. The install
+    package installs a console-mode control program called <span
+      style="font-style: italic;">imdisk.exe</span> and a Control Panel
+    applet<span style="font-style: italic;"></span>. After install is
+    finished, type <span style="font-style: italic;">imdisk</span>
+    without parameters for syntax help or double click the <span
+      style="font-style: italic;">ImDisk</span> icon in the Control
+    Panel. It also adds a menu item in Windows Explorer so that you can
+    right-click on a file to mount it as a virtual disk drive. Users of
+    <span style="font-style: italic;">mdconfig</span> in FreeBSD will
+    probably be familiar with the command line syntax of <span
+      style="font-style: italic;">imdisk.exe</span>. The driver, service
+    and control program can be uninstalled using the Add/Remove programs
+    applet in the Control Panel. No reboot is required for installing or
+    uninstalling.<br />
+      <br />
+      An additional driver, awealloc, in this install package supports memory 
+      allocation beyond 4 GB limit on 32 bit Windows through address window extension, 
+      AWE.<br />
+      <br />
+    The 
+      ImDisk driver supports forwarding I/O requests to third-party image file format 
+      handlers or to services on other
+    computers on the network. This makes it possible to boot a machine
+    with NTFS partitions with a Live-CD and use the included&nbsp;
+    <span style="font-style: italic;">devio</span> tool to let <span
+      style="font-style: italic;">ImDisk</span> on another computer
+    running Windows on the network mount the NTFS partition on the
+    machine with a faulty NTFS partition. This way you can recover information and 
+      even run chkdsk on drives on machines where Windows does not boot. There are also instructions about how to use <span
+      style="font-style: italic;">devio</span> under Windows on <a
+href="http://grandstreamdreams.blogspot.com/2009/08/devio-remote-drive-access-and.html">Claus Valca's blog</a>.
+
+      <h3>ImDisk Toolkit
+      </h3>The ImDisk Toolkit is a complete package that adds a more modern and intuitive user interface to ImDisk. ImDisk Toolkit offers features like automated creation of memory disks at system startup and mounting many different image file formats. It is developed and maintained by &quot;v77&quot;. It is available for <a href="https://sourceforge.net/projects/imdisk-toolkit/">download here</a>.<br />
+      <h3>64 bit compatibility</h3>
+    64-bit versions share source code with the 32-bit version. All
+    features and most limitations are the same in the 64-bit and 32-bit
+    versions. One difference however, is that the 64-bit versions
+    do not have any practical size limits for virtual disks backed by memory.<br/>
+    <h3>Driver files are digitally
+      signed with a certificate trusted by Microsoft.</h3>
+      This means that ImDisk works on Windows Vista and later
+      without running in testsigning mode.
+    <br/>
+    <h3>Special note for Windows NT 3.51</h3>
+    The .inf file used in the install process is not compatible with
+    Windows NT 3.51. To install on NT 3.51 you can extract the files in
+    the packages using 7-zip and then manually create the driver keys in
+    the registry or using a SCM control tool like <span
+      style="font-style: italic;">sc.exe</span> in the Windows NT
+    Resource Kit. On later versions of Windows you just run the package
+    and it will install everything automatically.<br/>
+    <h3>Source code</h3>
+    <p>
+    Source code for all of <span style="font-style: italic;">ImDisk Virtual Disk Driver</span>,
+    including the <em>devio</em> server-side tool, API libraries etc is available as a
+    7-zip compressed file <a href="../files/imdisk_source.7z">here (251.3 KB)</a>. Different parts of the source tree are built in different environments:</p>
+    <ul>
+        <li>The Windows drivers, command line tool and Control Panel applet parts of the source code are built with <a href="http://www.microsoft.com/download/details.aspx?id=11800">WDK 7.1.0</a>. There is a <em>Makefile</em> in&nbsp;the source tree root that builds imdisk.sys, awealloc.sys, imdisk.cpl, imdisk.exe and imdsksvc.exe when ran with <em>nmake</em> in WDK 7.1.0 command prompts.</li>
+        <li>The devio server side tool used with ImDisk clients in proxy mode, can be built with most *nix C++ compilers like gcc and similar. It can also be built in most Visual Studio/C++ command prompts. In all cases the devio binary you get supports listening for a tcp/ip connection and serving either a raw image file or a Microsoft vhd image file and parsing MBR partition tables to find offsets and sizes. When built with Visual Studio/C++ compilers, you will get a devio.exe that also supports listening for shared memory connections, the --dll switch to load custom dlls for accessing custom image file formats and features for auto-finding sizes of a physical devices.</li>
+        <li>The .NET library located in ImDiskNet subdirectory can be built using Visual Studio 2010 or higher, any edition with Visual Basic support.</li>
+        <li>There is an experimental Visual Studio solution with some project files for the driver, Control Panel applet, imdisk.exe and devio.exe. This is not yet ready for production use, but could be used to open files for easier editing in Visual Studio development environment, even if you likely need to switch to WDK 7.1.0 command line to build. </li>
+    </ul>
+    <h3>API</h3>
+      API functions are available for C/C++, COM and .NET clients. If you want to call functions for
+    creating/removing/querying virtual disks from your own program you
+    can #include the file inc\imdisk.h in your C/C++ source files and
+    link the cpl\i386\imdisk.lib library.
+      Read inc\imdisk.h in source archive for documentation about C/C++ usage. If you would like information
+    about how to write compatible server-end software in C/C++ you can take a
+    look at the I/O packet structures in inc\imdproxy.h.<br/>
+    <br/>
+      A class library DLL for COM and .NET developers is available as a separate
+    wrapper DLL. <a href="/files/ImDiskNet.dll">You can download that
+      DLL here</a> or an <a href="/files/ImDiskNet.7z">archive
+      including the actual DLL along with import libraries and registry
+      files for COM usage here</a>.
+      <a href="http://www.ltr-data.se/library/ImDiskNet/html/b33f1e89-3d92-fc08-248d-14c5c2efd549.htm">
+      Look here</a> for on-line documentation about .NET API. There are also, as usual, xml 
+      files with method/parameter descriptions available to each assembly file.<br/>
+    <h3>License</h3>
+    I have received some e-mails with questions whether or not it is
+    okay to include this driver in a commercial product. The answer is <span
+      style="font-style: italic;">yes</span>, just like all other tools I publish here. However, note that a few lines of code are under the GNU GPL license. More specifically, the driver code related to floppy
+    emulation. Some of the driver code is also ported to Windows NT from
+    the FreeBSD 'md' driver.<br />
+    <br />
+    This means that if you modify the code and/or include it in and/or redistribute it along with your own product, all of the modified/integrated/redistributed product that you distribute needs to be redistributed under GPL, including source code. If you wish to avoid GPL requirements, such as the need to redistribute source code, you would therefore need to remove all floppy emulation related code from the driver. I 
+    will be happy to do such modifications for you to make the code comply with your license requirements. Just send me an e-mail!<br />
+      <h3>Compatibility</h3>
+    <p>ImDisk Virtual Disk Driver is designed to be a small, simple and yet powerful virtual disk driver. It runs on very old versions of Windows NT as well as modern Windows versions. However, because of this compatibility design and because it emulates disk volumes rather than complete disks, it is not always compatible with all applications and drivers. For instance, you cannot manage things like mount points, drive letters and similar for ImDisk drives using mountvol command line tool or in Disk Management in Windows. As another example, you cannot create or access shadow copies on ImDisk drives. So, applications that use similar Windows features as Disk Management dialog to enumerate disks and disk volumes to find disk properties like sector sizes and similar, might possibly not work as expected with ImDisk drives.</p>
+      <h3>Arsenal Image Mounter - If you need full disk emulation support</h3>
+    <p>If you need full disk emulation, including integration with Disk Management, Volume Shadow Copy Services, mountvol and diskpart command line tools as well as better compatibility with applications, we provide another open source virtual disk project, called <strong>Arsenal Image Mounter</strong>. It is published together with <strong><a href="http://ArsenalRecon.com">Arsenal Recon</a></strong> and is available for <strong><a href="http://www.ArsenalRecon.com/apps/image-mounter/">download here</a></strong>. It is available for non-commercial use under AGPL license. Commercial license options available, please contact <strong><a href="http://www.ArsenalRecon.com/contact/">Arsenal Recon</a></strong> for more information. Source code, command line tools, driver setup packages and similar for Arsenal Image Mounter are available on <a href="https://github.com/ArsenalRecon/Arsenal-Image-Mounter"><strong>GitHub</strong></a>. The directory structure is desribed in
+        <a href="https://github.com/ArsenalRecon/Arsenal-Image-Mounter/blob/master/Directory_structure.txt"><strong>this document</strong></a>.</p>
+        
+      <h3>Questions?</h3>
+      There is a sub-forum at <a
+      href="http://reboot.pro/index.php?showforum=59">Reboot.pro</a> for discussions about ImDisk Virtual Disk Driver and
+    other tools published here.<br /><strong><em>Answers to frequently asked questions are </em></strong> <a href="http://reboot.pro/index.php?showtopic=15593">
+      <strong><em>collected in this thread</em></strong></a>.<br/>
+    <br/>
+  </body>
+</html>
