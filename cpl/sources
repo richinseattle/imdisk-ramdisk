@@ -1,0 +1,29 @@
+TARGETNAME=imdisk
+TARGETEXT=cpl
+TARGETPATH=.
+TARGETTYPE=DYNLINK
+C_DEFINES = $(C_DEFINES) /DUNICODE /D_UNICODE /DNT4_COMPATIBLE /DIMDISK_CPL_EXPORTS 
+UMTYPE=windows
+USE_MSVCRT=1
+MSC_OPTIMIZATION=/Ox /GF
+MSC_WARNING_LEVEL=/W4 /WX /wd4201
+SOURCES=imdisk.cpp resource.rc drvio.c rundll.c mbr.c
+DLLDEF=$O\imdisk.def
+
+!IF "$(_BUILDARCH)" == "x86"
+
+BUFFER_OVERFLOW_CHECKS=0
+#_NT_TARGET_VERSION=0x500
+DLLENTRY=DllMain@12
+
+!ENDIF
+
+TARGETLIBS=$(SDK_LIB_PATH)\kernel32.lib \
+           $(SDK_LIB_PATH)\advapi32.lib \
+           $(SDK_LIB_PATH)\user32.lib \
+           $(SDK_LIB_PATH)\shell32.lib \
+           $(SDK_LIB_PATH)\gdi32.lib \
+           $(SDK_LIB_PATH)\comctl32.lib \
+           $(SDK_LIB_PATH)\comdlg32.lib \
+           $(SDK_LIB_PATH)\ntdll.lib
+
